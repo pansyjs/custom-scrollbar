@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "jsx": "react",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@@/*": ["src/.umi/*"],
+      "@pansy/scrollbar-react": ["src/index.tsx"],
+      "@pansy/scrollbar-react/es/*": ["src/*"]
+    }
+  }
+}

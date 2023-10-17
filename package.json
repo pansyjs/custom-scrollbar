@@ -1,0 +1,42 @@
+{
+  "name": "@pansy/scrollbar-react",
+  "version": "1.0.0",
+  "description": "自定义滚动条组件",
+  "main": "lib/index.js",
+  "types": "es/index.d.ts",
+  "module": "es/index.js",
+  "scripts": {
+    "start": "dumi dev",
+    "build": "father build"
+  },
+  "files": [
+    "es",
+    "lib"
+  ],
+  "keywords": [
+    "scrollbar",
+    "component",
+    "react-component",
+    "scrollbar-react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "dependencies": {
+    "@pansy/scrollbar-width": "^1.0.0",
+    "throttle-debounce": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "@types/throttle-debounce": "^5.0.0",
+    "dumi": "^2.2.13",
+    "father": "^4.3.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  }
+}

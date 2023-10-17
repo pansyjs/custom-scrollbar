@@ -1,0 +1,10 @@
+node_modules
+
+es
+lib
+dist
+
+pnpm-lock.yaml
+
+# dumi
+.dumi/tmp
