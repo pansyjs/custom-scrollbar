@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
-import SimpleBarCore from 'simplebar-core';
+import ScrollbarCore from './scrollbar';
 import type { SimpleBarOptions } from 'simplebar-core';
 
 type RenderFunc = (props: {
@@ -26,7 +26,7 @@ export interface Props
   };
 }
 
-export const Scrollbar = forwardRef<SimpleBarCore | null, Props>(
+export const Scrollbar = forwardRef<ScrollbarCore | null, Props>(
   ({ children, scrollableNodeProps = {}, ...otherProps }, ref) => {
     const elRef = useRef();
     const scrollableNodeRef = useRef<HTMLElement>();
@@ -36,7 +36,7 @@ export const Scrollbar = forwardRef<SimpleBarCore | null, Props>(
 
     Object.keys(otherProps).forEach((key) => {
       if (
-        Object.prototype.hasOwnProperty.call(SimpleBarCore.defaultOptions, key)
+        Object.prototype.hasOwnProperty.call(ScrollbarCore.defaultOptions, key)
       ) {
         (options as any)[key] = otherProps[key as keyof SimpleBarOptions];
       } else {
@@ -45,9 +45,9 @@ export const Scrollbar = forwardRef<SimpleBarCore | null, Props>(
     });
 
     const classNames = {
-      ...SimpleBarCore.defaultOptions.classNames,
+      ...ScrollbarCore.defaultOptions.classNames,
       ...options.classNames,
-    } as Required<(typeof SimpleBarCore.defaultOptions)['classNames']>;
+    } as Required<(typeof ScrollbarCore.defaultOptions)['classNames']>;
 
     const scrollableNodeFullProps = {
       ...scrollableNodeProps,
@@ -56,18 +56,18 @@ export const Scrollbar = forwardRef<SimpleBarCore | null, Props>(
       }`,
       tabIndex: 0,
       role: 'region',
-      'aria-label': options.ariaLabel || SimpleBarCore.defaultOptions.ariaLabel,
+      'aria-label': options.ariaLabel || ScrollbarCore.defaultOptions.ariaLabel,
     };
 
     useEffect(
       () => {
-        let instance: SimpleBarCore | null;
+        let instance: ScrollbarCore | null;
         scrollableNodeRef.current = scrollableNodeFullProps.ref
           ? scrollableNodeFullProps.ref.current
           : scrollableNodeRef.current;
 
         if (elRef.current) {
-          instance = new SimpleBarCore(elRef.current, {
+          instance = new ScrollbarCore(elRef.current, {
             ...options,
             ...(scrollableNodeRef.current && {
               scrollableNode: scrollableNodeRef.current,

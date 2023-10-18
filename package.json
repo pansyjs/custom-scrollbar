@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "@pansy/scrollbar-width": "^1.0.0",
-    "simplebar-core": "^1.2.4",
+    "@types/lodash-es": "^4.17.9",
+    "lodash-es": "^4.17.21",
     "throttle-debounce": "^5.0.0"
   },
   "devDependencies": {
