@@ -2,18 +2,10 @@ import type { CustomScrollbarOptions } from './types';
 
 export { scrollbarWidth } from '@pansy/scrollbar-width';
 
-export const canUseDOM = !!(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-);
+export const canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 export function getElementWindow(element: Element) {
-  if (
-    !element ||
-    !element.ownerDocument ||
-    !element.ownerDocument.defaultView
-  ) {
+  if (!element || !element.ownerDocument || !element.ownerDocument.defaultView) {
     return window;
   }
   return element.ownerDocument.defaultView;
@@ -50,9 +42,8 @@ export const getOptions = function (obj: any) {
     (acc: any, attribute) => {
       const option = attribute.name.match(/data-simplebar-(.+)/);
       if (option) {
-        const key: keyof CustomScrollbarOptions = option[1].replace(
-          /\W+(.)/g,
-          (_: any, chr: string) => chr.toUpperCase()
+        const key: keyof CustomScrollbarOptions = option[1].replace(/\W+(.)/g, (_: any, chr: string) =>
+          chr.toUpperCase(),
         );
 
         switch (attribute.value) {
@@ -71,7 +62,7 @@ export const getOptions = function (obj: any) {
       }
       return acc;
     },
-    initialObj
+    initialObj,
   );
   return options as CustomScrollbarOptions;
 };

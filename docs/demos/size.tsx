@@ -9,7 +9,7 @@ export default () => {
       <CustomScrollbar
         style={{
           maxHeight: 300,
-          width: 200
+          width: 200,
         }}
         autoHide={false}
       >
@@ -31,7 +31,7 @@ export default () => {
       <CustomScrollbar
         style={{
           maxHeight: 300,
-          width: 200
+          width: 200,
         }}
         size="small"
         autoHide={false}
@@ -52,5 +52,5 @@ export default () => {
         <p>124</p>
       </CustomScrollbar>
     </Space>
-  )
-}
+  );
+};

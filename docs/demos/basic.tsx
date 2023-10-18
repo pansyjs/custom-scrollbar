@@ -24,5 +24,5 @@ export default () => {
       <p>123</p>
       <p>124</p>
     </CustomScrollbar>
-  )
-}
+  );
+};

@@ -12,14 +12,7 @@ type RtlHelpers = {
 } | null;
 type DefaultOptions = Options & typeof CustomScrollbar.defaultOptions;
 
-const {
-  getElementWindow,
-  getElementDocument,
-  getOptions,
-  addClasses,
-  removeClasses,
-  classNamesToQuery,
-} = helpers;
+const { getElementWindow, getElementDocument, getOptions, addClasses, removeClasses, classNamesToQuery } = helpers;
 
 export class CustomScrollbar {
   el: HTMLElement;
@@ -129,17 +122,12 @@ export class CustomScrollbar {
     };
 
     if (typeof this.el !== 'object' || !this.el.nodeName) {
-      throw new Error(
-        `Argument passed to CustomScrollbar must be an HTML element instead of ${this.el}`
-      );
+      throw new Error(`Argument passed to CustomScrollbar must be an HTML element instead of ${this.el}`);
     }
 
     this.onMouseMove = throttle(this._onMouseMove, 64);
     this.onWindowResize = debounce(this._onWindowResize, 64, { leading: true });
-    this.onStopScrolling = debounce(
-      this._onStopScrolling,
-      this.stopScrollDelay
-    );
+    this.onStopScrolling = debounce(this._onStopScrolling, this.stopScrollDelay);
     this.onMouseEntered = debounce(this._onMouseEntered, this.stopScrollDelay);
 
     this.init();
@@ -164,8 +152,7 @@ export class CustomScrollbar {
     }
 
     const dummyDiv = document.createElement('div');
-    dummyDiv.innerHTML =
-      `<div class="${CustomScrollbar.prefixCls}-dummy-scrollbar-size"><div></div></div>`;
+    dummyDiv.innerHTML = `<div class="${CustomScrollbar.prefixCls}-dummy-scrollbar-size"><div></div></div>`;
 
     const scrollbarDummyEl = dummyDiv.firstElementChild;
     const dummyChild = scrollbarDummyEl?.firstElementChild;
@@ -188,8 +175,7 @@ export class CustomScrollbar {
       // determines if the scrolling is responding with negative values
       isScrollOriginAtZero: dummyContainerOffset.left !== dummyChildOffset.left,
       // determines if the origin scrollbar position is inverted or not (positioned on left or right)
-      isScrollingToNegative:
-        dummyChildOffset.left !== dummyChildOffsetAfterScroll.left,
+      isScrollingToNegative: dummyChildOffset.left !== dummyChildOffsetAfterScroll.left,
     };
 
     return CustomScrollbar.rtlHelpers;
@@ -200,9 +186,7 @@ export class CustomScrollbar {
     try {
       // Detect browsers supporting CSS scrollbar styling and do not calculate
       if (
-        (this.contentWrapperEl &&
-          getComputedStyle(this.contentWrapperEl, '::-webkit-scrollbar')
-            .display === 'none') ||
+        (this.contentWrapperEl && getComputedStyle(this.contentWrapperEl, '::-webkit-scrollbar').display === 'none') ||
         'scrollbarWidth' in document.documentElement.style ||
         '-ms-overflow-style' in document.documentElement.style
       ) {
@@ -221,12 +205,8 @@ export class CustomScrollbar {
     const elWindow = getElementWindow(el);
 
     return {
-      top:
-        rect.top +
-        (elWindow.pageYOffset || elDocument.documentElement.scrollTop),
-      left:
-        rect.left +
-        (elWindow.pageXOffset || elDocument.documentElement.scrollLeft),
+      top: rect.top + (elWindow.pageYOffset || elDocument.documentElement.scrollTop),
+      left: rect.left + (elWindow.pageXOffset || elDocument.documentElement.scrollLeft),
     };
   }
 
@@ -246,54 +226,32 @@ export class CustomScrollbar {
 
   initDOM() {
     // assume that element has his DOM already initiated
-    this.wrapperEl = this.el.querySelector(
-      classNamesToQuery(this.classNames.wrapper)
-    );
+    this.wrapperEl = this.el.querySelector(classNamesToQuery(this.classNames.wrapper));
     this.contentWrapperEl =
-      this.options.scrollableNode ||
-      this.el.querySelector(classNamesToQuery(this.classNames.contentWrapper));
-    this.contentEl =
-      this.options.contentNode ||
-      this.el.querySelector(classNamesToQuery(this.classNames.contentEl));
+      this.options.scrollableNode || this.el.querySelector(classNamesToQuery(this.classNames.contentWrapper));
+    this.contentEl = this.options.contentNode || this.el.querySelector(classNamesToQuery(this.classNames.contentEl));
 
-    this.offsetEl = this.el.querySelector(
-      classNamesToQuery(this.classNames.offset)
-    );
-    this.maskEl = this.el.querySelector(
-      classNamesToQuery(this.classNames.mask)
-    );
+    this.offsetEl = this.el.querySelector(classNamesToQuery(this.classNames.offset));
+    this.maskEl = this.el.querySelector(classNamesToQuery(this.classNames.mask));
 
-    this.placeholderEl = this.findChild(
-      this.wrapperEl,
-      classNamesToQuery(this.classNames.placeholder)
-    );
+    this.placeholderEl = this.findChild(this.wrapperEl, classNamesToQuery(this.classNames.placeholder));
     this.heightAutoObserverWrapperEl = this.el.querySelector(
-      classNamesToQuery(this.classNames.heightAutoObserverWrapperEl)
+      classNamesToQuery(this.classNames.heightAutoObserverWrapperEl),
     );
-    this.heightAutoObserverEl = this.el.querySelector(
-      classNamesToQuery(this.classNames.heightAutoObserverEl)
-    );
+    this.heightAutoObserverEl = this.el.querySelector(classNamesToQuery(this.classNames.heightAutoObserverEl));
     this.axis.x.track.el = this.findChild(
       this.el,
-      `${classNamesToQuery(this.classNames.track)}${classNamesToQuery(
-        this.classNames.horizontal
-      )}`
+      `${classNamesToQuery(this.classNames.track)}${classNamesToQuery(this.classNames.horizontal)}`,
     );
     this.axis.y.track.el = this.findChild(
       this.el,
-      `${classNamesToQuery(this.classNames.track)}${classNamesToQuery(
-        this.classNames.vertical
-      )}`
+      `${classNamesToQuery(this.classNames.track)}${classNamesToQuery(this.classNames.vertical)}`,
     );
 
     this.axis.x.scrollbar.el =
-      this.axis.x.track.el?.querySelector(
-        classNamesToQuery(this.classNames.scrollbar)
-      ) || null;
+      this.axis.x.track.el?.querySelector(classNamesToQuery(this.classNames.scrollbar)) || null;
     this.axis.y.scrollbar.el =
-      this.axis.y.track.el?.querySelector(
-        classNamesToQuery(this.classNames.scrollbar)
-      ) || null;
+      this.axis.y.track.el?.querySelector(classNamesToQuery(this.classNames.scrollbar)) || null;
 
     if (!this.options.autoHide) {
       addClasses(this.axis.x.scrollbar.el, this.classNames.visible);
@@ -370,8 +328,7 @@ export class CustomScrollbar {
     const contentElOffsetWidth = this.contentEl.offsetWidth;
 
     const isHeightAuto = this.heightAutoObserverEl.offsetHeight <= 1;
-    const isWidthAuto =
-      this.heightAutoObserverEl.offsetWidth <= 1 || contentElOffsetWidth > 0;
+    const isWidthAuto = this.heightAutoObserverEl.offsetWidth <= 1 || contentElOffsetWidth > 0;
 
     const contentWrapperElOffsetWidth = this.contentWrapperEl.offsetWidth;
 
@@ -387,53 +344,36 @@ export class CustomScrollbar {
     this.contentWrapperEl.style.height = isHeightAuto ? 'auto' : '100%';
 
     // Determine placeholder size
-    this.placeholderEl.style.width = isWidthAuto
-      ? `${contentElOffsetWidth || contentElScrollWidth}px`
-      : 'auto';
+    this.placeholderEl.style.width = isWidthAuto ? `${contentElOffsetWidth || contentElScrollWidth}px` : 'auto';
     this.placeholderEl.style.height = `${contentElScrollHeight}px`;
 
     const contentWrapperElOffsetHeight = this.contentWrapperEl.offsetHeight;
 
-    this.axis.x.isOverflowing =
-      contentElOffsetWidth !== 0 && contentElScrollWidth > contentElOffsetWidth;
-    this.axis.y.isOverflowing =
-      contentElScrollHeight > contentWrapperElOffsetHeight;
+    this.axis.x.isOverflowing = contentElOffsetWidth !== 0 && contentElScrollWidth > contentElOffsetWidth;
+    this.axis.y.isOverflowing = contentElScrollHeight > contentWrapperElOffsetHeight;
 
     // Set isOverflowing to false if user explicitely set hidden overflow
-    this.axis.x.isOverflowing =
-      elOverflowX === 'hidden' ? false : this.axis.x.isOverflowing;
-    this.axis.y.isOverflowing =
-      elOverflowY === 'hidden' ? false : this.axis.y.isOverflowing;
+    this.axis.x.isOverflowing = elOverflowX === 'hidden' ? false : this.axis.x.isOverflowing;
+    this.axis.y.isOverflowing = elOverflowY === 'hidden' ? false : this.axis.y.isOverflowing;
 
-    this.axis.x.forceVisible =
-      this.options.forceVisible === 'x' || this.options.forceVisible === true;
-    this.axis.y.forceVisible =
-      this.options.forceVisible === 'y' || this.options.forceVisible === true;
+    this.axis.x.forceVisible = this.options.forceVisible === 'x' || this.options.forceVisible === true;
+    this.axis.y.forceVisible = this.options.forceVisible === 'y' || this.options.forceVisible === true;
     this.hideNativeScrollbar();
 
     // Set isOverflowing to false if scrollbar is not necessary (content is shorter than offset)
-    const offsetForXScrollbar = this.axis.x.isOverflowing
-      ? this.scrollbarWidth
-      : 0;
-    const offsetForYScrollbar = this.axis.y.isOverflowing
-      ? this.scrollbarWidth
-      : 0;
+    const offsetForXScrollbar = this.axis.x.isOverflowing ? this.scrollbarWidth : 0;
+    const offsetForYScrollbar = this.axis.y.isOverflowing ? this.scrollbarWidth : 0;
 
     this.axis.x.isOverflowing =
-      this.axis.x.isOverflowing &&
-      contentElScrollWidth > contentWrapperElOffsetWidth - offsetForYScrollbar;
+      this.axis.x.isOverflowing && contentElScrollWidth > contentWrapperElOffsetWidth - offsetForYScrollbar;
     this.axis.y.isOverflowing =
-      this.axis.y.isOverflowing &&
-      contentElScrollHeight >
-        contentWrapperElOffsetHeight - offsetForXScrollbar;
+      this.axis.y.isOverflowing && contentElScrollHeight > contentWrapperElOffsetHeight - offsetForXScrollbar;
 
     this.axis.x.scrollbar.size = this.getScrollbarSize('x');
     this.axis.y.scrollbar.size = this.getScrollbarSize('y');
 
-    if (this.axis.x.scrollbar.el)
-      this.axis.x.scrollbar.el.style.width = `${this.axis.x.scrollbar.size - 8}px`;
-    if (this.axis.y.scrollbar.el)
-      this.axis.y.scrollbar.el.style.height = `${this.axis.y.scrollbar.size - 8}px`;
+    if (this.axis.x.scrollbar.el) this.axis.x.scrollbar.el.style.width = `${this.axis.x.scrollbar.size - 8}px`;
+    if (this.axis.y.scrollbar.el) this.axis.y.scrollbar.el.style.height = `${this.axis.y.scrollbar.size - 8}px`;
 
     this.positionScrollbar('x');
     this.positionScrollbar('y');
@@ -451,17 +391,13 @@ export class CustomScrollbar {
     }
 
     const contentSize = this.contentEl[this.axis[axis].scrollSizeAttr];
-    const trackSize =
-      this.axis[axis].track.el?.[this.axis[axis].offsetSizeAttr] ?? 0;
+    const trackSize = this.axis[axis].track.el?.[this.axis[axis].offsetSizeAttr] ?? 0;
     const scrollbarRatio = trackSize / contentSize;
 
     let scrollbarSize;
 
     // Calculate new height/position of drag handle.
-    scrollbarSize = Math.max(
-      ~~(scrollbarRatio * trackSize),
-      this.options.scrollbarMinSize
-    );
+    scrollbarSize = Math.max(~~(scrollbarRatio * trackSize), this.options.scrollbarMinSize);
 
     if (this.options.scrollbarMaxSize) {
       scrollbarSize = Math.min(scrollbarSize, this.options.scrollbarMaxSize);
@@ -473,47 +409,32 @@ export class CustomScrollbar {
   positionScrollbar(axis: Axis = 'y') {
     const scrollbar = this.axis[axis].scrollbar;
 
-    if (
-      !this.axis[axis].isOverflowing ||
-      !this.contentWrapperEl ||
-      !scrollbar.el ||
-      !this.elStyles
-    ) {
+    if (!this.axis[axis].isOverflowing || !this.contentWrapperEl || !scrollbar.el || !this.elStyles) {
       return;
     }
 
     const contentSize = this.contentWrapperEl[this.axis[axis].scrollSizeAttr];
-    const trackSize =
-      this.axis[axis].track.el?.[this.axis[axis].offsetSizeAttr] || 0;
+    const trackSize = this.axis[axis].track.el?.[this.axis[axis].offsetSizeAttr] || 0;
     const hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
 
     let scrollOffset = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
 
     scrollOffset =
-      axis === 'x' &&
-      this.isRtl &&
-      CustomScrollbar.getRtlHelpers()?.isScrollOriginAtZero
+      axis === 'x' && this.isRtl && CustomScrollbar.getRtlHelpers()?.isScrollOriginAtZero
         ? -scrollOffset
         : scrollOffset;
 
     if (axis === 'x' && this.isRtl) {
-      scrollOffset = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative
-        ? scrollOffset
-        : -scrollOffset;
+      scrollOffset = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative ? scrollOffset : -scrollOffset;
     }
 
     const scrollPourcent = scrollOffset / (contentSize - hostSize);
 
     let handleOffset = ~~((trackSize - scrollbar.size) * scrollPourcent);
-    handleOffset =
-      axis === 'x' && this.isRtl
-        ? -handleOffset + (trackSize - scrollbar.size)
-        : handleOffset;
+    handleOffset = axis === 'x' && this.isRtl ? -handleOffset + (trackSize - scrollbar.size) : handleOffset;
 
     scrollbar.el.style.transform =
-      axis === 'x'
-        ? `translate3d(${handleOffset}px, 0, 0)`
-        : `translate3d(0, ${handleOffset}px, 0)`;
+      axis === 'x' ? `translate3d(${handleOffset}px, 0, 0)` : `translate3d(0, ${handleOffset}px, 0)`;
   }
 
   toggleTrackVisibility(axis: Axis = 'y') {
@@ -557,13 +478,9 @@ export class CustomScrollbar {
     if (!this.offsetEl) return;
 
     this.offsetEl.style[this.isRtl ? 'left' : 'right'] =
-      this.axis.y.isOverflowing || this.axis.y.forceVisible
-        ? `-${this.scrollbarWidth}px`
-        : '0px';
+      this.axis.y.isOverflowing || this.axis.y.forceVisible ? `-${this.scrollbarWidth}px` : '0px';
     this.offsetEl.style.bottom =
-      this.axis.x.isOverflowing || this.axis.x.forceVisible
-        ? `-${this.scrollbarWidth}px`
-        : '0px';
+      this.axis.x.isOverflowing || this.axis.x.forceVisible ? `-${this.scrollbarWidth}px` : '0px';
   }
 
   /**
@@ -655,8 +572,7 @@ export class CustomScrollbar {
     if (!currentAxis.track.el || !currentAxis.scrollbar.el) return;
 
     currentAxis.track.rect = currentAxis.track.el.getBoundingClientRect();
-    currentAxis.scrollbar.rect =
-      currentAxis.scrollbar.el.getBoundingClientRect();
+    currentAxis.scrollbar.rect = currentAxis.scrollbar.el.getBoundingClientRect();
 
     if (this.isWithinBounds(currentAxis.track.rect)) {
       this.showScrollbar(axis);
@@ -706,12 +622,7 @@ export class CustomScrollbar {
   };
 
   onPointerEvent = (e: any) => {
-    if (
-      !this.axis.x.track.el ||
-      !this.axis.y.track.el ||
-      !this.axis.x.scrollbar.el ||
-      !this.axis.y.scrollbar.el
-    )
+    if (!this.axis.x.track.el || !this.axis.y.track.el || !this.axis.x.scrollbar.el || !this.axis.y.scrollbar.el)
       return;
 
     let isWithinTrackXBounds, isWithinTrackYBounds;
@@ -734,8 +645,7 @@ export class CustomScrollbar {
 
       if (e.type === 'pointerdown' && e.pointerType !== 'touch') {
         if (isWithinTrackXBounds) {
-          this.axis.x.scrollbar.rect =
-            this.axis.x.scrollbar.el.getBoundingClientRect();
+          this.axis.x.scrollbar.rect = this.axis.x.scrollbar.el.getBoundingClientRect();
 
           if (this.isWithinBounds(this.axis.x.scrollbar.rect)) {
             this.onDragStart(e, 'x');
@@ -745,8 +655,7 @@ export class CustomScrollbar {
         }
 
         if (isWithinTrackYBounds) {
-          this.axis.y.scrollbar.rect =
-            this.axis.y.scrollbar.el.getBoundingClientRect();
+          this.axis.y.scrollbar.rect = this.axis.y.scrollbar.el.getBoundingClientRect();
 
           if (this.isWithinBounds(this.axis.y.scrollbar.rect)) {
             this.onDragStart(e, 'y');
@@ -768,8 +677,7 @@ export class CustomScrollbar {
 
     // Measure how far the user's mouse is from the top of the scrollbar drag handle.
     const eventOffset = axis === 'y' ? e.pageY : e.pageX;
-    this.axis[axis].dragOffset =
-      eventOffset - (scrollbar.rect?.[this.axis[axis].offsetAttr] || 0);
+    this.axis[axis].dragOffset = eventOffset - (scrollbar.rect?.[this.axis[axis].offsetAttr] || 0);
     this.draggedAxis = axis;
 
     addClasses(this.el, this.classNames.dragging);
@@ -795,12 +703,8 @@ export class CustomScrollbar {
     const track = this.axis[this.draggedAxis].track;
     const trackSize = track.rect?.[this.axis[this.draggedAxis].sizeAttr] ?? 0;
     const scrollbar = this.axis[this.draggedAxis].scrollbar;
-    const contentSize =
-      this.contentWrapperEl?.[this.axis[this.draggedAxis].scrollSizeAttr] ?? 0;
-    const hostSize = parseInt(
-      this.elStyles?.[this.axis[this.draggedAxis].sizeAttr] ?? '0px',
-      10
-    );
+    const contentSize = this.contentWrapperEl?.[this.axis[this.draggedAxis].scrollSizeAttr] ?? 0;
+    const hostSize = parseInt(this.elStyles?.[this.axis[this.draggedAxis].sizeAttr] ?? '0px', 10);
 
     e.preventDefault();
     e.stopPropagation();
@@ -816,11 +720,10 @@ export class CustomScrollbar {
       eventOffset -
       (track.rect?.[this.axis[this.draggedAxis].offsetAttr] ?? 0) -
       this.axis[this.draggedAxis].dragOffset;
-    dragPos = this.draggedAxis === 'x' && this.isRtl
-      ? (track.rect?.[this.axis[this.draggedAxis].sizeAttr] ?? 0) -
-        scrollbar.size -
-        dragPos
-      : dragPos;
+    dragPos =
+      this.draggedAxis === 'x' && this.isRtl
+        ? (track.rect?.[this.axis[this.draggedAxis].sizeAttr] ?? 0) - scrollbar.size - dragPos
+        : dragPos;
     // Convert the mouse position into a percentage of the scrollbar height/width.
     const dragPerc = dragPos / (trackSize - scrollbar.size);
 
@@ -829,13 +732,10 @@ export class CustomScrollbar {
 
     // Fix browsers inconsistency on RTL
     if (this.draggedAxis === 'x' && this.isRtl) {
-      scrollPos = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative
-        ? -scrollPos
-        : scrollPos;
+      scrollPos = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative ? -scrollPos : scrollPos;
     }
 
-    this.contentWrapperEl[this.axis[this.draggedAxis].scrollOffsetAttr] =
-      scrollPos;
+    this.contentWrapperEl[this.axis[this.draggedAxis].scrollOffsetAttr] = scrollPos;
   };
 
   /**
@@ -870,30 +770,18 @@ export class CustomScrollbar {
 
   onTrackClick(e: any, axis: Axis = 'y') {
     const currentAxis = this.axis[axis];
-    if (
-      !this.options.clickOnTrack ||
-      !currentAxis.scrollbar.el ||
-      !this.contentWrapperEl
-    )
-      return;
+    if (!this.options.clickOnTrack || !currentAxis.scrollbar.el || !this.contentWrapperEl) return;
 
     // Preventing the event's default to trigger click underneath
     e.preventDefault();
 
     const elWindow = getElementWindow(this.el);
-    this.axis[axis].scrollbar.rect =
-      currentAxis.scrollbar.el.getBoundingClientRect();
+    this.axis[axis].scrollbar.rect = currentAxis.scrollbar.el.getBoundingClientRect();
     const scrollbar = this.axis[axis].scrollbar;
     const scrollbarOffset = scrollbar.rect?.[this.axis[axis].offsetAttr] ?? 0;
-    const hostSize = parseInt(
-      this.elStyles?.[this.axis[axis].sizeAttr] ?? '0px',
-      10
-    );
+    const hostSize = parseInt(this.elStyles?.[this.axis[axis].sizeAttr] ?? '0px', 10);
     let scrolled = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
-    const t =
-      axis === 'y'
-        ? this.mouseY - scrollbarOffset
-        : this.mouseX - scrollbarOffset;
+    const t = axis === 'y' ? this.mouseY - scrollbarOffset : this.mouseX - scrollbarOffset;
     const dir = t < 0 ? -1 : 1;
     const scrollSize = dir === -1 ? scrolled - hostSize : scrolled + hostSize;
     const speed = 40;
@@ -986,14 +874,8 @@ export class CustomScrollbar {
    * Find element children matches query
    */
   findChild(el: any, query: any) {
-    const matches =
-      el.matches ||
-      el.webkitMatchesSelector ||
-      el.mozMatchesSelector ||
-      el.msMatchesSelector;
-    return Array.prototype.filter.call(el.children, (child) =>
-      matches.call(child, query)
-    )[0];
+    const matches = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+    return Array.prototype.filter.call(el.children, (child) => matches.call(child, query))[0];
   }
 }
 

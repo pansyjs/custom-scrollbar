@@ -3,10 +3,10 @@ import { defineConfig } from 'father';
 export default defineConfig({
   esm: {
     output: 'es',
-    transformer: 'esbuild'
+    transformer: 'esbuild',
   },
   cjs: {
     output: 'lib',
-    transformer: 'esbuild'
-  }
-})
+    transformer: 'esbuild',
+  },
+});

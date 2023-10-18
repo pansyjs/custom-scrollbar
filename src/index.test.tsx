@@ -10,7 +10,7 @@ test('renders without crashing', () => {
           <p key={i}>Some content</p>
         ))}
       </CustomScrollbar>
-    </div>
+    </div>,
   );
 
   expect(container.firstChild).toMatchSnapshot();
@@ -22,11 +22,9 @@ test('renders with options', () => {
       {[...Array(5)].map((x, i) => (
         <p key={i}>Some content</p>
       ))}
-    </CustomScrollbar>
+    </CustomScrollbar>,
   );
   expect(container.firstChild).toMatchSnapshot();
 
-  expect(
-    container.querySelector('.custom-scrollbar-track.custom-scrollbar-vertical')
-  ).toBeVisible();
+  expect(container.querySelector('.custom-scrollbar-track.custom-scrollbar-vertical')).toBeVisible();
 });

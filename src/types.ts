@@ -22,7 +22,7 @@ export type AxisProps = {
     rect: DOMRect | null;
     isVisible: boolean;
   };
-}
+};
 
 export type ClassNames = {
   contentEl: string;
