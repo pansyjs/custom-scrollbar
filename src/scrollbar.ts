@@ -430,9 +430,9 @@ export default class Scrollbar {
     this.axis.y.scrollbar.size = this.getScrollbarSize('y');
 
     if (this.axis.x.scrollbar.el)
-      this.axis.x.scrollbar.el.style.width = `${this.axis.x.scrollbar.size}px`;
+      this.axis.x.scrollbar.el.style.width = `${this.axis.x.scrollbar.size - 8}px`;
     if (this.axis.y.scrollbar.el)
-      this.axis.y.scrollbar.el.style.height = `${this.axis.y.scrollbar.size}px`;
+      this.axis.y.scrollbar.el.style.height = `${this.axis.y.scrollbar.size - 8}px`;
 
     this.positionScrollbar('x');
     this.positionScrollbar('y');
