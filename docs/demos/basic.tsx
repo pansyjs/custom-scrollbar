@@ -8,7 +8,6 @@ export default () => {
       style={{
         maxHeight: 300,
       }}
-      autoHide={false}
     >
       <p>123</p>
       <p>124</p>
