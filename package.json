@@ -1,5 +1,5 @@
 {
-  "name": "@pansy/scrollbar-react",
+  "name": "@pansy/custom-scrollbar-react",
   "version": "1.0.0",
   "description": "自定义滚动条组件",
   "main": "lib/index.js",

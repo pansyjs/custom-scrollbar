@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
-import ScrollbarCore from './scrollbar';
+import CustomScrollbarCore from './CustomScrollbar';
 import type { SimpleBarOptions } from 'simplebar-core';
 
 type RenderFunc = (props: {
@@ -26,7 +26,7 @@ export interface Props
   };
 }
 
-export const Scrollbar = forwardRef<ScrollbarCore | null, Props>(
+export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
   ({ children, scrollableNodeProps = {}, ...otherProps }, ref) => {
     const elRef = useRef();
     const scrollableNodeRef = useRef<HTMLElement>();
@@ -36,7 +36,7 @@ export const Scrollbar = forwardRef<ScrollbarCore | null, Props>(
 
     Object.keys(otherProps).forEach((key) => {
       if (
-        Object.prototype.hasOwnProperty.call(ScrollbarCore.defaultOptions, key)
+        Object.prototype.hasOwnProperty.call(CustomScrollbarCore.defaultOptions, key)
       ) {
         (options as any)[key] = otherProps[key as keyof SimpleBarOptions];
       } else {
@@ -45,9 +45,9 @@ export const Scrollbar = forwardRef<ScrollbarCore | null, Props>(
     });
 
     const classNames = {
-      ...ScrollbarCore.defaultOptions.classNames,
+      ...CustomScrollbarCore.defaultOptions.classNames,
       ...options.classNames,
-    } as Required<(typeof ScrollbarCore.defaultOptions)['classNames']>;
+    } as Required<(typeof CustomScrollbarCore.defaultOptions)['classNames']>;
 
     const scrollableNodeFullProps = {
       ...scrollableNodeProps,
@@ -56,18 +56,18 @@ export const Scrollbar = forwardRef<ScrollbarCore | null, Props>(
       }`,
       tabIndex: 0,
       role: 'region',
-      'aria-label': options.ariaLabel || ScrollbarCore.defaultOptions.ariaLabel,
+      'aria-label': options.ariaLabel || CustomScrollbarCore.defaultOptions.ariaLabel,
     };
 
     useEffect(
       () => {
-        let instance: ScrollbarCore | null;
+        let instance: CustomScrollbarCore | null;
         scrollableNodeRef.current = scrollableNodeFullProps.ref
           ? scrollableNodeFullProps.ref.current
           : scrollableNodeRef.current;
 
         if (elRef.current) {
-          instance = new ScrollbarCore(elRef.current, {
+          instance = new CustomScrollbarCore(elRef.current, {
             ...options,
             ...(scrollableNodeRef.current && {
               scrollableNode: scrollableNodeRef.current,

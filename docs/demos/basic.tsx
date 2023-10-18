@@ -1,6 +1,6 @@
 import React from 'react';
-import ScrollbarReact from '@pansy/scrollbar-react';
-import '../../scrollbar.css';
+import ScrollbarReact from '@pansy/custom-scrollbar-react';
+import '../../scrollbar.less';
 
 export default () => {
   return (

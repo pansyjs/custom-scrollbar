@@ -10,8 +10,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
-      "@pansy/scrollbar-react": ["src/index.tsx"],
-      "@pansy/scrollbar-react/es/*": ["src/*"]
+      "@pansy/custom-scrollbar-react": ["src/index.tsx"],
+      "@pansy/custom-scrollbar-react/es/*": ["src/*"]
     }
   }
 }

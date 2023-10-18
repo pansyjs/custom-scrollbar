@@ -121,7 +121,6 @@
   pointer-events: none;
   overflow: hidden;
   padding: 4px;
-  background: #0080004a;
 }
 
 [data-simplebar].simplebar-dragging {

@@ -10,7 +10,7 @@ type RtlHelpers = {
   // determines if the origin scrollbar position is inverted or not (positioned on left or right)
   isScrollingToNegative: boolean;
 } | null;
-type DefaultOptions = Options & typeof Scrollbar.defaultOptions;
+type DefaultOptions = Options & typeof CustomScrollbar.defaultOptions;
 
 const {
   getElementWindow,
@@ -21,7 +21,7 @@ const {
   classNamesToQuery,
 } = helpers;
 
-export default class Scrollbar {
+export class CustomScrollbar {
   el: HTMLElement;
   options: DefaultOptions;
   classNames: ClassNames;
@@ -93,9 +93,9 @@ export default class Scrollbar {
 
   constructor(element: HTMLElement, options: Partial<Options> = {}) {
     this.el = element;
-    this.options = { ...Scrollbar.defaultOptions, ...options };
+    this.options = { ...CustomScrollbar.defaultOptions, ...options };
     this.classNames = {
-      ...Scrollbar.defaultOptions.classNames,
+      ...CustomScrollbar.defaultOptions.classNames,
       ...options.classNames,
     } as ClassNames;
     this.axis = {
@@ -158,8 +158,8 @@ export default class Scrollbar {
    * Directly inspired by @KingSora's OverlayScrollbars https://github.com/KingSora/OverlayScrollbars/blob/master/js/OverlayScrollbars.js#L1634
    */
   static getRtlHelpers() {
-    if (Scrollbar.rtlHelpers) {
-      return Scrollbar.rtlHelpers;
+    if (CustomScrollbar.rtlHelpers) {
+      return CustomScrollbar.rtlHelpers;
     }
 
     const dummyDiv = document.createElement('div');
@@ -175,15 +175,15 @@ export default class Scrollbar {
 
     scrollbarDummyEl.scrollLeft = 0;
 
-    const dummyContainerOffset = Scrollbar.getOffset(scrollbarDummyEl);
-    const dummyChildOffset = Scrollbar.getOffset(dummyChild);
+    const dummyContainerOffset = CustomScrollbar.getOffset(scrollbarDummyEl);
+    const dummyChildOffset = CustomScrollbar.getOffset(dummyChild);
 
     scrollbarDummyEl.scrollLeft = -999;
-    const dummyChildOffsetAfterScroll = Scrollbar.getOffset(dummyChild);
+    const dummyChildOffsetAfterScroll = CustomScrollbar.getOffset(dummyChild);
 
     document.body.removeChild(scrollbarDummyEl);
 
-    Scrollbar.rtlHelpers = {
+    CustomScrollbar.rtlHelpers = {
       // determines if the scrolling is responding with negative values
       isScrollOriginAtZero: dummyContainerOffset.left !== dummyChildOffset.left,
       // determines if the origin scrollbar position is inverted or not (positioned on left or right)
@@ -191,7 +191,7 @@ export default class Scrollbar {
         dummyChildOffset.left !== dummyChildOffsetAfterScroll.left,
     };
 
-    return Scrollbar.rtlHelpers;
+    return CustomScrollbar.rtlHelpers;
   }
 
   getScrollbarWidth() {
@@ -234,7 +234,7 @@ export default class Scrollbar {
     if (helpers.canUseDOM) {
       this.initDOM();
 
-      this.rtlHelpers = Scrollbar.getRtlHelpers();
+      this.rtlHelpers = CustomScrollbar.getRtlHelpers();
       this.scrollbarWidth = this.getScrollbarWidth();
 
       this.recalculate();
@@ -491,12 +491,12 @@ export default class Scrollbar {
     scrollOffset =
       axis === 'x' &&
       this.isRtl &&
-      Scrollbar.getRtlHelpers()?.isScrollOriginAtZero
+      CustomScrollbar.getRtlHelpers()?.isScrollOriginAtZero
         ? -scrollOffset
         : scrollOffset;
 
     if (axis === 'x' && this.isRtl) {
-      scrollOffset = Scrollbar.getRtlHelpers()?.isScrollingToNegative
+      scrollOffset = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative
         ? scrollOffset
         : -scrollOffset;
     }
@@ -828,7 +828,7 @@ export default class Scrollbar {
 
     // Fix browsers inconsistency on RTL
     if (this.draggedAxis === 'x' && this.isRtl) {
-      scrollPos = Scrollbar.getRtlHelpers()?.isScrollingToNegative
+      scrollPos = CustomScrollbar.getRtlHelpers()?.isScrollingToNegative
         ? -scrollPos
         : scrollPos;
     }
@@ -995,3 +995,5 @@ export default class Scrollbar {
     )[0];
   }
 }
+
+export default CustomScrollbar;
