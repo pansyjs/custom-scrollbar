@@ -6,9 +6,10 @@
   "types": "es/index.d.ts",
   "module": "es/index.js",
   "scripts": {
-    "start": "father dev",
+    "dev": "father dev",
+    "start": "dumi dev",
     "build": "father build",
-    "site": "dumi dev",
+    "site": "dumi build",
     "test": "jest",
     "prepare": "is-ci || husky install"
   },
@@ -50,7 +51,7 @@
     "@types/throttle-debounce": "^5.0.0",
     "@umijs/test": "^4.0.86",
     "antd": "^5.10.1",
-    "dumi": "^2.2.13",
+    "dumi": "^2.2.1",
     "father": "^4.3.5",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
