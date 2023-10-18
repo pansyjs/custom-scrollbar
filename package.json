@@ -11,7 +11,8 @@
     "build": "father build",
     "site": "dumi build",
     "test": "jest",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky install",
+    "format": "prettier --write --cache ."
   },
   "files": [
     "es",
@@ -63,6 +64,11 @@
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --cache --ignore-unknown"
+    ]
   },
   "publishConfig": {
     "access": "public"
