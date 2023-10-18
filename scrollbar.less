@@ -165,12 +165,18 @@
   background-color: fade(@base-color, 25%);
 }
 
-.@{prefix-cls}-dark @{prefix-cls}-scrollbar {
-  background-color: fade(@base-color, 15%);
-}
-
 .@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
   background-color: fade(@base-color, 35%);
+}
+
+.@{prefix-cls}-dark {
+  @{prefix-cls}-scrollbar {
+    background-color: fade(#fff, 15%);
+  }
+
+  .@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
+    background-color: fade(#fff, 35%);
+  }
 }
 
 .@{prefix-cls}-scrollbar.@{prefix-cls}-visible {
