@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+<div>
+  <div
+    class=""
+    data-simplebar="init"
+  >
+    <div
+      class="custom-scrollbar-wrapper"
+    >
+      <div
+        class="custom-scrollbar-height-auto-observer-wrapper"
+      >
+        <div
+          class="custom-scrollbar-height-auto-observer"
+        />
+      </div>
+      <div
+        class="custom-scrollbar-mask"
+      >
+        <div
+          class="custom-scrollbar-offset"
+          style="right: 0px; bottom: 0px;"
+        >
+          <div
+            aria-label="scrollable content"
+            class="custom-scrollbar-content-wrapper"
+            role="region"
+            style="height: auto; overflow-x: hidden; overflow-y: hidden;"
+            tabindex="0"
+          >
+            <div
+              class="custom-scrollbar-content"
+            >
+              <p>
+                Some content
+              </p>
+              <p>
+                Some content
+              </p>
+              <p>
+                Some content
+              </p>
+              <p>
+                Some content
+              </p>
+              <p>
+                Some content
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="custom-scrollbar-placeholder"
+        style="width: 0px; height: 0px;"
+      />
+    </div>
+    <div
+      class="custom-scrollbar-track custom-scrollbar-horizontal"
+      style="visibility: hidden;"
+    >
+      <div
+        class="custom-scrollbar-scrollbar"
+        style="width: -8px; display: none;"
+      />
+    </div>
+    <div
+      class="custom-scrollbar-track custom-scrollbar-vertical"
+      style="visibility: hidden;"
+    >
+      <div
+        class="custom-scrollbar-scrollbar"
+        style="height: -8px; display: none;"
+      />
+    </div>
+  </div>
+</div>
+`;
