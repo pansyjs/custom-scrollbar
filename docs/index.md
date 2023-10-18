@@ -9,5 +9,3 @@ hero:
     - text: GitHub
       link: https://github.com/umijs/dumi
 ---
-
-<code src="./demos/basic.tsx"></code>

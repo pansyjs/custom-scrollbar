@@ -1,4 +1,4 @@
-@prefix-cls: ~'p-scrollbar';
+@prefix-cls: ~'custom-scrollbar';
 
 @track-size: 16px;
 @track-size-sm: 12px;
@@ -16,7 +16,7 @@
   align-items: flex-start;
 }
 
-.simplebar-wrapper {
+.@{prefix-cls}-wrapper {
   overflow: hidden;
   width: inherit;
   height: inherit;
@@ -24,7 +24,7 @@
   max-height: inherit;
 }
 
-.simplebar-mask {
+.@{prefix-cls}-mask {
   direction: inherit;
   position: absolute;
   overflow: hidden;
@@ -39,7 +39,7 @@
   z-index: 0;
 }
 
-.simplebar-offset {
+.@{prefix-cls}-offset {
   direction: inherit !important;
   box-sizing: inherit !important;
   resize: none !important;
@@ -53,7 +53,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.simplebar-content-wrapper {
+.@{prefix-cls}-content-wrapper {
   direction: inherit;
   box-sizing: border-box !important;
   position: relative;
@@ -67,27 +67,27 @@
   -ms-overflow-style: none;
 }
 
-.simplebar-content-wrapper::-webkit-scrollbar,
-.simplebar-hide-scrollbar::-webkit-scrollbar {
+.@{prefix-cls}-content-wrapper::-webkit-scrollbar,
+.@{prefix-cls}-hide-scrollbar::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
 }
 
-.simplebar-content:before,
-.simplebar-content:after {
+.@{prefix-cls}-content:before,
+.@{prefix-cls}-content:after {
   content: ' ';
   display: table;
 }
 
-.simplebar-placeholder {
+.@{prefix-cls}-placeholder {
   max-height: 100%;
   max-width: 100%;
   width: 100%;
   pointer-events: none;
 }
 
-.simplebar-height-auto-observer-wrapper {
+.@{prefix-cls}-height-auto-observer-wrapper {
   box-sizing: inherit !important;
   height: 100%;
   width: 100%;
@@ -105,7 +105,7 @@
   flex-basis: 0;
 }
 
-.simplebar-height-auto-observer {
+.@{prefix-cls}-height-auto-observer {
   box-sizing: inherit;
   display: block;
   opacity: 0;
@@ -121,7 +121,7 @@
   z-index: -1;
 }
 
-.simplebar-track {
+.@{prefix-cls}-track {
   box-sizing: border-box;
   z-index: 1;
   position: absolute;
@@ -132,7 +132,7 @@
   padding: 4px;
 }
 
-[data-simplebar].simplebar-dragging {
+[data-simplebar].@{prefix-cls}-dragging {
   pointer-events: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -142,7 +142,7 @@
   user-select: none;
 }
 
-[data-simplebar].simplebar-dragging .simplebar-content {
+[data-simplebar].@{prefix-cls}-dragging .@{prefix-cls}-content {
   pointer-events: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -152,34 +152,44 @@
   user-select: none;
 }
 
-[data-simplebar].simplebar-dragging .simplebar-track {
+[data-simplebar].@{prefix-cls}-dragging .@{prefix-cls}-track {
   pointer-events: all;
 }
 
-.simplebar-scrollbar {
+.@{prefix-cls}-scrollbar {
+  position: relative;
+  cursor: pointer;
   min-height: 10px;
   border-radius: 4px;
   transition: opacity 0.2s 0.5s linear;
-  background-color: rgba(10, 27, 57, 0.25);
+  background-color: fade(@base-color, 25%);
 }
 
-.simplebar-scrollbar.simplebar-visible {
+.@{prefix-cls}-dark @{prefix-cls}-scrollbar {
+  background-color: fade(@base-color, 15%);
+}
+
+.@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
+  background-color: fade(@base-color, 35%);
+}
+
+.@{prefix-cls}-scrollbar.@{prefix-cls}-visible {
   opacity: 0.5;
   transition-delay: 0s;
   transition-duration: 0s;
 }
 
-.simplebar-track.simplebar-vertical {
+.@{prefix-cls}-track.@{prefix-cls}-vertical {
   top: 0;
-  width: 16px;
+  width: @track-size;
 }
 
-.simplebar-track.simplebar-horizontal {
+.@{prefix-cls}-track.@{prefix-cls}-horizontal {
   left: 0;
-  height: 16px;
+  height: @track-size;
 }
 
-.simplebar-track.simplebar-horizontal .simplebar-scrollbar {
+.@{prefix-cls}-track.@{prefix-cls}-horizontal .@{prefix-cls}-scrollbar {
   right: auto;
   left: 0;
   top: 0;
@@ -190,12 +200,12 @@
 }
 
 /* Rtl support */
-[data-simplebar-direction='rtl'] .simplebar-track.simplebar-vertical {
+[data-simplebar-direction='rtl'] .@{prefix-cls}-track.@{prefix-cls}-vertical {
   right: auto;
   left: 0;
 }
 
-.simplebar-dummy-scrollbar-size {
+.@{prefix-cls}-dummy-scrollbar-size {
   direction: rtl;
   position: fixed;
   opacity: 0;
@@ -207,17 +217,27 @@
   -ms-overflow-style: scrollbar !important;
 }
 
-.simplebar-dummy-scrollbar-size > div {
+.@{prefix-cls}-dummy-scrollbar-size > div {
   width: 200%;
   height: 200%;
   margin: 10px 0;
 }
 
-.simplebar-hide-scrollbar {
+.@{prefix-cls}-hide-scrollbar {
   position: fixed;
   left: 0;
   visibility: hidden;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.@{prefix-cls}-sm {
+  .@{prefix-cls}-track.@{prefix-cls}-vertical {
+    width: @track-size-sm;
+  }
+
+  .@{prefix-cls}-track.@{prefix-cls}-horizontal {
+    height: @track-size-sm;
+  }
 }

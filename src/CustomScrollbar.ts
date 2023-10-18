@@ -59,6 +59,7 @@ export class CustomScrollbar {
   onMouseEntered: DebouncedFunc<any> | (() => void) = () => {};
 
   static rtlHelpers: RtlHelpers = null;
+  static prefixCls = 'custom-scrollbar';
 
   static defaultOptions: Options = {
     forceVisible: false,
@@ -67,24 +68,24 @@ export class CustomScrollbar {
     scrollbarMaxSize: 0,
     ariaLabel: 'scrollable content',
     classNames: {
-      contentEl: 'simplebar-content',
-      contentWrapper: 'simplebar-content-wrapper',
-      offset: 'simplebar-offset',
-      mask: 'simplebar-mask',
-      wrapper: 'simplebar-wrapper',
-      placeholder: 'simplebar-placeholder',
-      scrollbar: 'simplebar-scrollbar',
-      track: 'simplebar-track',
-      heightAutoObserverWrapperEl: 'simplebar-height-auto-observer-wrapper',
-      heightAutoObserverEl: 'simplebar-height-auto-observer',
-      visible: 'simplebar-visible',
-      horizontal: 'simplebar-horizontal',
-      vertical: 'simplebar-vertical',
-      hover: 'simplebar-hover',
-      dragging: 'simplebar-dragging',
-      scrolling: 'simplebar-scrolling',
-      scrollable: 'simplebar-scrollable',
-      mouseEntered: 'simplebar-mouse-entered',
+      contentEl: `${CustomScrollbar.prefixCls}-content`,
+      contentWrapper: `${CustomScrollbar.prefixCls}-content-wrapper`,
+      offset: `${CustomScrollbar.prefixCls}-offset`,
+      mask: `${CustomScrollbar.prefixCls}-mask`,
+      wrapper: `${CustomScrollbar.prefixCls}-wrapper`,
+      placeholder: `${CustomScrollbar.prefixCls}-placeholder`,
+      scrollbar: `${CustomScrollbar.prefixCls}-scrollbar`,
+      track: `${CustomScrollbar.prefixCls}-track`,
+      heightAutoObserverWrapperEl: `${CustomScrollbar.prefixCls}-height-auto-observer-wrapper`,
+      heightAutoObserverEl: `${CustomScrollbar.prefixCls}-height-auto-observer`,
+      visible: `${CustomScrollbar.prefixCls}-visible`,
+      horizontal: `${CustomScrollbar.prefixCls}-horizontal`,
+      vertical: `${CustomScrollbar.prefixCls}-vertical`,
+      hover: `${CustomScrollbar.prefixCls}-hover`,
+      dragging: `${CustomScrollbar.prefixCls}-dragging`,
+      scrolling: `${CustomScrollbar.prefixCls}-scrolling`,
+      scrollable: `${CustomScrollbar.prefixCls}-scrollable`,
+      mouseEntered: `${CustomScrollbar.prefixCls}--mouse-entered`,
     },
     scrollableNode: null,
     contentNode: null,
@@ -129,7 +130,7 @@ export class CustomScrollbar {
 
     if (typeof this.el !== 'object' || !this.el.nodeName) {
       throw new Error(
-        `Argument passed to SimpleBar must be an HTML element instead of ${this.el}`
+        `Argument passed to CustomScrollbar must be an HTML element instead of ${this.el}`
       );
     }
 
@@ -164,7 +165,7 @@ export class CustomScrollbar {
 
     const dummyDiv = document.createElement('div');
     dummyDiv.innerHTML =
-      '<div class="simplebar-dummy-scrollbar-size"><div></div></div>';
+      `<div class="${CustomScrollbar.prefixCls}-dummy-scrollbar-size"><div></div></div>`;
 
     const scrollbarDummyEl = dummyDiv.firstElementChild;
     const dummyChild = scrollbarDummyEl?.firstElementChild;

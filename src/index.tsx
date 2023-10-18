@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
 import CustomScrollbarCore from './CustomScrollbar';
-import type { SimpleBarOptions } from 'simplebar-core';
+
+import type { CustomScrollbarOptions } from './types';
 
 type RenderFunc = (props: {
   scrollableNodeRef: React.MutableRefObject<HTMLElement | undefined>;
@@ -15,10 +16,13 @@ type RenderFunc = (props: {
   };
 }) => React.ReactNode;
 
-export interface Props
+export interface CustomScrollbarProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
-    SimpleBarOptions {
+  CustomScrollbarOptions {
+  prefixCls?: string;
   children?: React.ReactNode | RenderFunc;
+  dark?: boolean;
+  size?: 'middle' | 'small';
   scrollableNodeProps?: {
     ref?: any;
     className?: string;
@@ -26,21 +30,29 @@ export interface Props
   };
 }
 
-export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
-  ({ children, scrollableNodeProps = {}, ...otherProps }, ref) => {
+export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScrollbarProps>(
+  (props, ref) => {
+    const {
+      prefixCls = 'custom-scrollbar',
+      children,
+      scrollableNodeProps = {},
+      dark = false,
+      size = 'middle',
+      ...otherProps
+    } = props;
     const elRef = useRef();
     const scrollableNodeRef = useRef<HTMLElement>();
     const contentNodeRef = useRef<HTMLElement>();
-    const options: Partial<SimpleBarOptions> = {};
-    const rest: any = {};
+    const options: Partial<CustomScrollbarOptions> = {};
+    const rest: Record<string, any> = {};
 
     Object.keys(otherProps).forEach((key) => {
       if (
         Object.prototype.hasOwnProperty.call(CustomScrollbarCore.defaultOptions, key)
       ) {
-        (options as any)[key] = otherProps[key as keyof SimpleBarOptions];
+        (options as any)[key] = otherProps[key as keyof CustomScrollbarOptions];
       } else {
-        rest[key] = otherProps[key as keyof SimpleBarOptions];
+        rest[key] = otherProps[key as keyof CustomScrollbarOptions];
       }
     });
 
@@ -61,6 +73,7 @@ export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
 
     useEffect(
       () => {
+        CustomScrollbarCore.prefixCls = prefixCls;
         let instance: CustomScrollbarCore | null;
         scrollableNodeRef.current = scrollableNodeFullProps.ref
           ? scrollableNodeFullProps.ref.current
@@ -95,8 +108,23 @@ export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
       []
     );
 
+    const rootClassNames = [];
+
+    if (dark) {
+      rootClassNames.push(`${prefixCls}-dark`)
+    }
+
+    if (size === 'small') {
+      rootClassNames.push(`${prefixCls}-sm`)
+    }
+
     return (
-      <div data-simplebar="init" ref={elRef} {...rest}>
+      <div
+        data-simplebar="init"
+        className={rootClassNames.join(' ')}
+        ref={elRef}
+        {...rest}
+      >
         <div className={classNames.wrapper}>
           <div className={classNames.heightAutoObserverWrapperEl}>
             <div className={classNames.heightAutoObserverEl} />
@@ -125,10 +153,10 @@ export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
           </div>
           <div className={classNames.placeholder} />
         </div>
-        <div className={`${classNames.track} simplebar-horizontal`}>
+        <div className={`${classNames.track} ${prefixCls}-horizontal`}>
           <div className={classNames.scrollbar} />
         </div>
-        <div className={`${classNames.track} simplebar-vertical`}>
+        <div className={`${classNames.track} ${prefixCls}-vertical`}>
           <div className={classNames.scrollbar} />
         </div>
       </div>
@@ -136,4 +164,4 @@ export const Scrollbar = forwardRef<CustomScrollbarCore | null, Props>(
   }
 );
 
-export default Scrollbar;
+export default CustomScrollbar;

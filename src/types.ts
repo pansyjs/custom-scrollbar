@@ -57,4 +57,4 @@ export interface Options {
   autoHide: boolean;
 }
 
-export interface ScrollbarOptions extends Partial<Options> {}
+export interface CustomScrollbarOptions extends Partial<Options> {}
