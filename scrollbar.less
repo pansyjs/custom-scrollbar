@@ -163,6 +163,7 @@
   border-radius: 4px;
   transition: opacity 0.2s 0.5s linear;
   background-color: fade(@base-color, 25%);
+  opacity: 0;
 }
 
 .@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
@@ -180,7 +181,7 @@
 }
 
 .@{prefix-cls}-scrollbar.@{prefix-cls}-visible {
-  opacity: 0.5;
+  opacity: 1;
   transition-delay: 0s;
   transition-duration: 0s;
 }
