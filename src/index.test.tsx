@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomScrollbar } from '../src';
+import { CustomScrollbar } from './';
 import { render, waitFor } from '@testing-library/react';
 
 test('renders without crashing', () => {
