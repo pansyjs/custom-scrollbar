@@ -1,6 +1,6 @@
 {
   "name": "@pansy/custom-scrollbar-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "自定义滚动条组件",
   "main": "lib/index.js",
   "types": "es/index.d.ts",
