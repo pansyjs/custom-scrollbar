@@ -1,4 +1,4 @@
-import type { ScrollbarOptions } from './types';
+import type { CustomScrollbarOptions } from './types';
 
 export { scrollbarWidth } from '@pansy/scrollbar-width';
 
@@ -43,14 +43,14 @@ export function classNamesToQuery(classNames: string) {
 }
 
 export const getOptions = function (obj: any) {
-  const initialObj: ScrollbarOptions = {};
+  const initialObj: CustomScrollbarOptions = {};
 
   const options = Array.prototype.reduce.call(
     obj,
     (acc: any, attribute) => {
       const option = attribute.name.match(/data-simplebar-(.+)/);
       if (option) {
-        const key: keyof ScrollbarOptions = option[1].replace(
+        const key: keyof CustomScrollbarOptions = option[1].replace(
           /\W+(.)/g,
           (_: any, chr: string) => chr.toUpperCase()
         );
@@ -73,5 +73,5 @@ export const getOptions = function (obj: any) {
     },
     initialObj
   );
-  return options as ScrollbarOptions;
+  return options as CustomScrollbarOptions;
 };
