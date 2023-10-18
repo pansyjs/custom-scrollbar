@@ -113,12 +113,15 @@
 }
 
 .simplebar-track {
+  box-sizing: border-box;
   z-index: 1;
   position: absolute;
   right: 0;
   bottom: 0;
   pointer-events: none;
   overflow: hidden;
+  padding: 4px;
+  background: #0080004a;
 }
 
 [data-simplebar].simplebar-dragging {
@@ -146,24 +149,13 @@
 }
 
 .simplebar-scrollbar {
-  position: absolute;
-  left: 0;
-  right: 0;
   min-height: 10px;
-}
-
-.simplebar-scrollbar:before {
-  position: absolute;
-  content: '';
-  background: black;
-  border-radius: 7px;
-  left: 2px;
-  right: 2px;
-  opacity: 0;
+  border-radius: 4px;
   transition: opacity 0.2s 0.5s linear;
+  background-color: rgba(10, 27, 57, 0.25);
 }
 
-.simplebar-scrollbar.simplebar-visible:before {
+.simplebar-scrollbar.simplebar-visible {
   opacity: 0.5;
   transition-delay: 0s;
   transition-duration: 0s;
@@ -171,19 +163,12 @@
 
 .simplebar-track.simplebar-vertical {
   top: 0;
-  width: 11px;
-}
-
-.simplebar-scrollbar:before {
-  top: 2px;
-  bottom: 2px;
-  left: 2px;
-  right: 2px;
+  width: 16px;
 }
 
 .simplebar-track.simplebar-horizontal {
   left: 0;
-  height: 11px;
+  height: 16px;
 }
 
 .simplebar-track.simplebar-horizontal .simplebar-scrollbar {

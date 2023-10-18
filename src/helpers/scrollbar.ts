@@ -1,15 +1,27 @@
 import { debounce, throttle } from 'throttle-debounce';
 import { scrollbarWidth } from './scrollbarWidth';
-import { canUseDOM } from './common';
-import { classNamesToQuery } from './class';
+import { canUseDOM, getElementWindow } from './common';
+import { classNamesToQuery, addClasses, removeClasses, } from './class';
 
 import type { Axis, AxisProps, Options, ClassNames } from '../types';
+
+type RtlHelpers = {
+  isScrollOriginAtZero: boolean;
+  isScrollingToNegative: boolean;
+} | null;
 
 export class ScrollbarCore {
   el: HTMLElement;
   options: Options;
   classNames: ClassNames;
   axis: Record<Axis, AxisProps>;
+
+  minScrollbarWidth = 20;
+  stopScrollDelay = 175;
+  isScrolling = false;
+  isMouseEntering = false;
+  scrollXTicking = false;
+  scrollYTicking = false;
 
   wrapperEl: HTMLElement | null = null;
   contentWrapperEl: HTMLElement | null = null;
@@ -21,6 +33,8 @@ export class ScrollbarCore {
   heightAutoObserverWrapperEl: HTMLElement | null = null;
   heightAutoObserverEl: HTMLElement | null = null;
   scrollbarWidth: number = 0;
+  elStyles: CSSStyleDeclaration | null = null;
+  isRtl: boolean | null = null;
 
   mouseX: number = 0;
   mouseY: number = 0;
@@ -173,6 +187,64 @@ export class ScrollbarCore {
   }
 
   initListeners() {
+    const elWindow = getElementWindow(this.el);
+
+    this.el.addEventListener('mouseenter', this.onMouseEnter);
+    this.el.addEventListener('pointerdown', this.onPointerEvent, true);
+
+    this.el.addEventListener('mousemove', this.onMouseMove);
+    this.el.addEventListener('mouseleave', this.onMouseLeave);
+
+    this.contentWrapperEl?.addEventListener('scroll', this.onScroll);
+  }
+
+  removeListeners() {
+
+  }
+
+  onScroll = () => {
+    const elWindow = getElementWindow(this.el);
+
+    if (!this.scrollXTicking) {
+      elWindow.requestAnimationFrame(this.scrollX);
+      this.scrollXTicking = true;
+    }
+  }
+
+  scrollX = () => {
+    if (this.axis.x.isOverflowing) {
+      this.positionScrollbar('x');
+    }
+
+    this.scrollXTicking = false;
+  };
+
+  positionScrollbar(axis: Axis = 'y') {
+    const scrollbar = this.axis[axis].scrollbar;
+
+    if (
+      !this.axis[axis].isOverflowing ||
+      !this.contentWrapperEl ||
+      !scrollbar.el ||
+      !this.elStyles
+    ) {
+      return;
+    }
+
+    const contentSize = this.contentWrapperEl[this.axis[axis].scrollSizeAttr];
+
+    const trackSize =
+      this.axis[axis].track.el?.[this.axis[axis].offsetSizeAttr] || 0;
+    const hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
+
+    let scrollOffset = this.contentWrapperEl[this.axis[axis].scrollOffsetAttr];
+
+    scrollOffset =
+      axis === 'x' &&
+      this.isRtl &&
+      ScrollbarCore.getRtlHelpers()?.isScrollOriginAtZero
+        ? -scrollOffset
+        : scrollOffset;
 
   }
 
@@ -187,7 +259,8 @@ export class ScrollbarCore {
     )[0];
   }
 
-  _onMouseMove = (e: any) => {
+  _onMouseMove = (e: MouseEvent) => {
+    console.log(e);
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
 
@@ -203,10 +276,115 @@ export class ScrollbarCore {
   onMouseMoveForAxis(axis: Axis = 'y') {
     const currentAxis = this.axis[axis];
     if (!currentAxis.track.el || !currentAxis.scrollbar.el) return;
+
+    currentAxis.track.rect = currentAxis.track.el.getBoundingClientRect();
+    currentAxis.scrollbar.rect =
+      currentAxis.scrollbar.el.getBoundingClientRect();
+
+    if (this.isWithinBounds(currentAxis.track.rect)) {
+      this.showScrollbar(axis);
+      addClasses(currentAxis.track.el, this.classNames.hover);
+
+      if (this.isWithinBounds(currentAxis.scrollbar.rect)) {
+        addClasses(currentAxis.scrollbar.el, this.classNames.hover);
+      } else {
+        removeClasses(currentAxis.scrollbar.el, this.classNames.hover);
+      }
+    } else {
+      removeClasses(currentAxis.track.el, this.classNames.hover);
+      if (this.options.autoHide) {
+        this.hideScrollbar(axis);
+      }
+    }
   }
 
   _onWindowResize = () => {
     // Recalculate scrollbarWidth in case it's a zoom
     this.scrollbarWidth = this.getScrollbarWidth();
+  }
+
+  onMouseEnter = () => {
+    if (!this.isMouseEntering) {
+      addClasses(this.el, this.classNames.mouseEntered);
+
+      this.showScrollbar('x');
+      this.showScrollbar('y');
+
+      this.isMouseEntering = true;
+    }
+  }
+
+  onMouseLeave = () => {
+    (this.onMouseMove as debounce<any>).cancel();
+
+    if (this.axis.x.isOverflowing || this.axis.x.forceVisible) {
+      this.onMouseLeaveForAxis('x');
+    }
+
+    if (this.axis.y.isOverflowing || this.axis.y.forceVisible) {
+      this.onMouseLeaveForAxis('y');
+    }
+
+    this.mouseX = -1;
+    this.mouseY = -1;
+  };
+
+  onMouseLeaveForAxis(axis: Axis = 'y') {
+    removeClasses(this.axis[axis].track.el, this.classNames.hover);
+    removeClasses(this.axis[axis].scrollbar.el, this.classNames.hover);
+    if (this.options.autoHide) {
+      this.hideScrollbar(axis);
+    }
+  }
+
+  onPointerEvent = () => {
+
+  }
+
+  showScrollbar(axis: Axis = 'y') {
+    if (this.axis[axis].isOverflowing && !this.axis[axis].scrollbar.isVisible) {
+      addClasses(this.axis[axis].scrollbar.el, this.classNames.visible);
+      this.axis[axis].scrollbar.isVisible = true;
+    }
+  }
+
+  hideScrollbar(axis: Axis = 'y') {
+    if (this.axis[axis].isOverflowing && this.axis[axis].scrollbar.isVisible) {
+      removeClasses(this.axis[axis].scrollbar.el, this.classNames.visible);
+      this.axis[axis].scrollbar.isVisible = false;
+    }
+  }
+
+  isWithinBounds(bbox: DOMRect) {
+    return (
+      this.mouseX >= bbox.left &&
+      this.mouseX <= bbox.left + bbox.width &&
+      this.mouseY >= bbox.top &&
+      this.mouseY <= bbox.top + bbox.height
+    );
+  }
+
+  unMount() {
+    this.removeListeners();
+  }
+
+  static rtlHelpers: RtlHelpers = null;
+  static getRtlHelpers() {
+    if (ScrollbarCore.rtlHelpers) {
+      return ScrollbarCore.rtlHelpers;
+    }
+
+    const dummyDiv = document.createElement('div');
+    dummyDiv.innerHTML =
+      '<div class="simplebar-dummy-scrollbar-size"><div></div></div>';
+
+    const scrollbarDummyEl = dummyDiv.firstElementChild;
+    const dummyChild = scrollbarDummyEl?.firstElementChild;
+
+    if (!dummyChild) return null;
+
+    document.body.appendChild(scrollbarDummyEl);
+
+    scrollbarDummyEl.scrollLeft = 0;
   }
 }

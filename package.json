@@ -6,18 +6,23 @@
   "types": "es/index.d.ts",
   "module": "es/index.js",
   "scripts": {
-    "start": "dumi dev",
-    "build": "father build"
+    "start": "father dev",
+    "build": "father build",
+    "site": "dumi dev"
   },
   "files": [
     "es",
-    "lib"
+    "lib",
+    "scrollbar.css"
   ],
   "keywords": [
     "scrollbar",
     "component",
     "react-component",
     "scrollbar-react"
+  ],
+  "sideEffects": [
+    "*.css"
   ],
   "author": "",
   "license": "MIT",
@@ -27,6 +32,7 @@
   },
   "dependencies": {
     "@pansy/scrollbar-width": "^1.0.0",
+    "simplebar-core": "^1.2.4",
     "throttle-debounce": "^5.0.0"
   },
   "devDependencies": {
