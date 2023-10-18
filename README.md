@@ -25,3 +25,47 @@
   </a>
 </p>
 
+## 🏗 安装
+
+```sh
+# npm install
+$ npm install @pansy/custom-scrollbar-react --save
+
+# yarn install
+$ yarn add @pansy/custom-scrollbar-react
+
+# pnpm install
+$ pnpm i @pansy/custom-scrollbar-react
+```
+
+## 🔨 使用
+
+```tsx
+import CustomScrollbar from '@pansy/custom-scrollbar-react';
+import '@pansy/custom-scrollbar-react/scrollbar.less';
+
+export default () => {
+  return (
+    <CustomScrollbar
+      style={{
+        maxHeight: 300,
+      }}
+    >
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+      <p>123</p>
+      <p>124</p>
+    </CustomScrollbar>
+  )
+}
+```
