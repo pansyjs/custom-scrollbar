@@ -5,7 +5,8 @@
 @padding: 4px;
 @padding-sm: 4px;
 @radius: 4px;
-@base-color: #0a1b39;
+@thumb-color: #0a1b39;
+@thumb-color-dark: #fff;
 
 [data-simplebar] {
   position: relative;
@@ -160,23 +161,23 @@
   position: relative;
   cursor: pointer;
   min-height: 10px;
-  border-radius: 4px;
+  border-radius: @padding;
   transition: opacity 0.2s 0.5s linear;
-  background-color: fade(@base-color, 25%);
+  background-color: fade(@thumb-color, 25%);
   opacity: 0;
 }
 
 .@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
-  background-color: fade(@base-color, 35%);
+  background-color: fade(@thumb-color, 35%);
 }
 
 .@{prefix-cls}-dark {
   .@{prefix-cls}-scrollbar {
-    background-color: fade(#fff, 15%);
+    background-color: fade(@thumb-color-dark, 15%);
   }
 
   .@{prefix-cls}-hover .@{prefix-cls}-scrollbar {
-    background-color: fade(#fff, 35%);
+    background-color: fade(@thumb-color-dark, 35%);
   }
 }
 
