@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
+import { classNames as classNamesFun } from '@pansy/shared';
 import CustomScrollbarCore from './CustomScrollbar';
 
 import type { CustomScrollbarOptions } from './types';
@@ -33,6 +34,7 @@ export interface CustomScrollbarProps
 export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScrollbarProps>((props, ref) => {
   const {
     prefixCls = 'custom-scrollbar',
+    className,
     children,
     scrollableNodeProps = {},
     dark = false,
@@ -102,18 +104,16 @@ export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScro
     };
   }, []);
 
-  const rootClassNames = [];
-
-  if (dark) {
-    rootClassNames.push(`${prefixCls}-dark`);
-  }
-
-  if (size === 'small') {
-    rootClassNames.push(`${prefixCls}-sm`);
-  }
-
   return (
-    <div data-simplebar="init" className={rootClassNames.join(' ')} ref={elRef} {...rest}>
+    <div
+      data-simplebar="init"
+      ref={elRef}
+      {...rest}
+      className={classNamesFun(className, {
+        [`${prefixCls}-dark`]: dark,
+        [`${prefixCls}-sm`]: size === 'small',
+      })}
+    >
       <div className={classNames.wrapper}>
         <div className={classNames.heightAutoObserverWrapperEl}>
           <div className={classNames.heightAutoObserverEl} />

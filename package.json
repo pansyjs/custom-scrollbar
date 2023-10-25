@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@pansy/scrollbar-width": "^1.0.0",
+    "@pansy/shared": "^1.14.0",
     "@types/lodash-es": "^4.17.9",
     "lodash-es": "^4.17.21",
     "throttle-debounce": "^5.0.0"
