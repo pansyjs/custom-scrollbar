@@ -8,6 +8,10 @@
 
 <code src="./demos/size.tsx"></code>
 
+## 水平滚动条
+
+<code src="./demos/horizontal.tsx"></code>
+
 ## 暗黑背景
 
 <code src="./demos/dark.tsx" background="rgba(26, 38, 61, 0.85)"></code>
