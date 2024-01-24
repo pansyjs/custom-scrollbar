@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, forwardRef } from 'react';
-import { classNames as classNamesFun } from '@pansy/shared';
+import { classNames } from '@pansy/shared';
 import CustomScrollbarCore from './CustomScrollbar';
 
 import type { CustomScrollbarOptions } from './types';
@@ -55,16 +55,14 @@ export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScro
     }
   });
 
-  const classNames = {
+  const classes = {
     ...CustomScrollbarCore.defaultOptions.classNames,
     ...options.classNames,
   } as Required<(typeof CustomScrollbarCore.defaultOptions)['classNames']>;
 
   const scrollableNodeFullProps = {
     ...scrollableNodeProps,
-    className: `${classNames.contentWrapper}${
-      scrollableNodeProps.className ? ` ${scrollableNodeProps.className}` : ''
-    }`,
+    className: `${classes.contentWrapper}${scrollableNodeProps.className ? ` ${scrollableNodeProps.className}` : ''}`,
     tabIndex: 0,
     role: 'region',
     'aria-label': options.ariaLabel || CustomScrollbarCore.defaultOptions.ariaLabel,
@@ -109,17 +107,17 @@ export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScro
       data-simplebar="init"
       ref={elRef}
       {...rest}
-      className={classNamesFun(className, {
+      className={classNames(className, {
         [`${prefixCls}-dark`]: dark,
         [`${prefixCls}-sm`]: size === 'small',
       })}
     >
-      <div className={classNames.wrapper}>
-        <div className={classNames.heightAutoObserverWrapperEl}>
-          <div className={classNames.heightAutoObserverEl} />
+      <div className={classes.wrapper}>
+        <div className={classes.heightAutoObserverWrapperEl}>
+          <div className={classes.heightAutoObserverEl} />
         </div>
-        <div className={classNames.mask}>
-          <div className={classNames.offset}>
+        <div className={classes.mask}>
+          <div className={classes.offset}>
             {typeof children === 'function' ? (
               children({
                 scrollableNodeRef,
@@ -129,24 +127,24 @@ export const CustomScrollbar = forwardRef<CustomScrollbarCore | null, CustomScro
                 },
                 contentNodeRef,
                 contentNodeProps: {
-                  className: classNames.contentEl,
+                  className: classes.contentEl,
                   ref: contentNodeRef,
                 },
               })
             ) : (
               <div {...scrollableNodeFullProps}>
-                <div className={classNames.contentEl}>{children}</div>
+                <div className={classes.contentEl}>{children}</div>
               </div>
             )}
           </div>
         </div>
-        <div className={classNames.placeholder} />
+        <div className={classes.placeholder} />
       </div>
-      <div className={`${classNames.track} ${prefixCls}-horizontal`}>
-        <div className={classNames.scrollbar} />
+      <div className={`${classes.track} ${prefixCls}-horizontal`}>
+        <div className={classes.scrollbar} />
       </div>
-      <div className={`${classNames.track} ${prefixCls}-vertical`}>
-        <div className={classNames.scrollbar} />
+      <div className={`${classes.track} ${prefixCls}-vertical`}>
+        <div className={classes.scrollbar} />
       </div>
     </div>
   );
