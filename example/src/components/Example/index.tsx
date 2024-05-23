@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import styles from './index.module.css';
-import Scrollbar from '@pansy/custom-scrollbar-react';
-// import Scrollbar from 'simplebar-react';
-// import 'simplebar-react/dist/simplebar.min.css';
+import { List } from './List';
 
 export const Example = () => {
   const [open, setOpen] = useState(false);
@@ -36,51 +34,7 @@ export const Example = () => {
         <div className={styles.content}>
           <div className={styles.tabs}>Tabs 占位</div>
           <div className={styles.list}>
-            <Scrollbar
-              style={{
-                maxHeight: '100%',
-                width: '100%',
-                overflow: 'scroll',
-              }}
-              autoHide={false}
-            >
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-              <p>信息占位1</p>
-            </Scrollbar>
+            <List />
           </div>
         </div>
       </div>
